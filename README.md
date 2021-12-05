@@ -77,7 +77,7 @@ function foo() public checkCondition() {}
 
 1. Il est maintenant temps d'ouvrir votre Smart Contract vers l'extérieur. C'est pourquoi nous allons avoir besoin d'installer [Metamask](https://metamask.io/). Il s'agit d'une extension de navigateur permettant de gérer des portefeuilles Ethereum. Lors de votre installation vous serez amené à **créer un portefeuille**. Une fois l'installation terminée, ouvrez l'extension puis cliquez sur _Réseau principal Ethereum_ puis sur **afficher/cacher les réseaux de test** et cochez l'option. Cela permet ensuite de choisir le réseau de test **Rinkeby**. Puis vous pouvez utiliser un [faucet](https://faucets.chain.link/rinkeby) afin de récolter un peu d'ether (si le site ne marche pas vous pouvez nous contacter, nous avons quelques ethers en rab pour vous ;)). Vous pouvez répéter l'action mais comme vous le voyez il est fastidieux d'obtenir plus de 1 ether, c'est pourquoi il faudra faire attention aux prix que vous définissez pour vos bières (sachant qu'une transaction sur Rinkeby coûte environ 0.0001 ether de frais et le déploiement d'un contrat 0.001 ether).
 
-2. Le squelette de la dapp est déjà créé. Le framework front-end choisi est Vue.
+2. Le squelette de la dapp a déjà été créé. Le framework front-end choisi est Vue.
 Vous pouvez vous connecter à l'IDE en ligne de Vue :  [codesandbox.io](https://codesandbox.io/s/foy-dapp-skeleton-v1216)
 ou alors si voulez une solution plus "stable" et reactive, vous pouvez aussi cloner le repo Git, et **npm ci** puis **npm run serve** dans le directory _dapp\_skeleton_.
 Voici une exemple de version finie de la dapp : [foy-dapp](https://goldananas.github.io/solidity-sffs-private/)
