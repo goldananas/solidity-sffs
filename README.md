@@ -1,6 +1,6 @@
 # Solidity & DApp | SFFS
 
-Solidity & DApp TP for the SFFS course.
+DApp using Solidity for the SFFS course.
 
 ## Sujet
 
