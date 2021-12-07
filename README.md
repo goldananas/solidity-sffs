@@ -30,7 +30,7 @@ contract Foy {
 
 > La propriété **msg.sender** permet de récupérer l'adresse de l'expéditeur d'une transaction. Son type est **address** qui permet de stocker des valeurs sur 20 octets.
 
-2. On veut rendre stocker les inventaires des acheteurs dans un map : address -> BeerInventory
+2. On veut stocker les inventaires des acheteurs dans un map : address -> BeerInventory
    BeerInventory étant un objet comptant le nombre de bières possédé par une adresse (= 1 acheteur) pour chaque type de bière. Choisir plusieurs bières à ajouter à cet inventaire (Chouffe, La Bête, ...).
 
 3. Le Foy veut créer une fonction permettant d'acheter un type de bière. La fonction incrémentera l'inventaire de l'acheteur et transférera le montant de la transaction à l'adresse propriétaire du contrat. Pour l'instant aucune condition sur le montant de la transaction n'est demandée.
