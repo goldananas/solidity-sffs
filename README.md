@@ -4,8 +4,7 @@ DApp using Solidity for the SFFS course.
 
 ## Sujet
 
-En raison des conditions sanitaires, le Foy de l'INSA Rennes a décidé de se diversifier en proposant une expérience virtuelle à ses habitués. Le bureau du Foy t'a choisi pour mettre en place un Smart Contract permettant à quiconque possédant un portefeuille Ethereum d'acheter des bières virtuelles. De plus l'acheteur pourra visualiser ses nouvelles trouvailles sur une application décentralisée (Dapp) ! L'avenir du Foy est entre tes mains.
-
+En raison des conditions sanitaires, le Foy de l'INSA Rennes a décidé de se diversifier en proposant une expérience virtuelle à ses habitués. Le bureau du Foy t'a choisi pour mettre en place un Smart Contract permettant à quiconque possédant un portefeuille Ethereum d'acheter des bières virtuelles. De plus l'acheteur pourra visualiser ses nouvelles trouvailles sur une application décentralisée (DApp) ! L'avenir du Foy est entre tes mains.
 
 ## Prise en main de Remix
 
@@ -13,7 +12,8 @@ En raison des conditions sanitaires, le Foy de l'INSA Rennes a décidé de se di
 
 2. Par défaut, Remix crée un workspace avec déjà plusieurs Smart Contracts, vous pouvez les laisser ou les supprimer, cela n'importe pas pour ce TP. Créer un nouveau fichier **foy.sol** dans le répertoire [/contracts](/contracts).
 
-3. Spécifier l'identifiant [SPDX](https://fr.wikipedia.org/wiki/SPDX) et la version du compilateur à utiliser puis on déclare le contrat comme une classe Java. 
+3. Spécifier l'identifiant [SPDX](https://fr.wikipedia.org/wiki/SPDX) et la version du compilateur à utiliser puis on déclare le contrat comme une classe Java.
+
 ```solidity
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.7;
@@ -25,16 +25,15 @@ contract Foy {
 
 ## Création du Smart Contract
 
-1. Créer le constructeur du contrat, **constructor**, ne prenant aucun paramètre. On stocke 
-l'adresse du propriétaire du contrat afin de réaliser des transactions vers celle-ci par la suite.
+1. Créer le constructeur du contrat, **constructor**, ne prenant aucun paramètre. On stocke
+   l'adresse du propriétaire du contrat afin de réaliser des transactions vers celle-ci par la suite.
 
 > La propriété **msg.sender** permet de récupérer l'adresse de l'expéditeur d'une transaction. Son type est **address** qui permet de stocker des valeurs sur 20 octets.
 
+2. On veut stocker les inventaires des acheteurs dans un map : address -> BeerInventory
+   BeerInventory étant un objet comptant le nombre de bières possédé par une adresse (= 1 acheteur) pour chaque type de bière. Choisir plusieurs bières à ajouter à cet inventaire (Chouffe, La Bête, ...).
 
-2. On veut rendre stocker les inventaires des acheteurs dans un map : address -> BeerInventory
-BeerInventory étant un objet comptant le nombre de bières possédé par une adresse (= 1 acheteur) pour chaque type de bière. Choisir plusieurs bières à ajouter à cet inventaire (Chouffe, La Bête, ...).
-
-3. Le Foy veut créer une fonction permettant d'acheter un type de bière. La fonction incrémentera l'inventaire de l'acheteur et transférera le montant de la transaction à l'adresse propriétaire du contrat. Pour l'instant aucune condition sur le montant de la transaction n'est demandée. 
+3. Le Foy veut créer une fonction permettant d'acheter un type de bière. La fonction incrémentera l'inventaire de l'acheteur et transférera le montant de la transaction à l'adresse propriétaire du contrat. Pour l'instant aucune condition sur le montant de la transaction n'est demandée.
 
 > Le mot clé **payable**, spécifié après la visibilité d'une fonction, permet d'utiliser la propriété **msg.value** qui correspond le montant d'ethereum dans une transaction.
 
@@ -52,13 +51,13 @@ BeerInventory étant un objet comptant le nombre de bières possédé par une ad
 
 > Le mot clé **revert** permet d'annuler la transaction (retourne le montant et les frais de transaction à l'expéditeur) et renvoie une erreur de type **error**.
 
-> Le mot clé **ether** peut être utilisé en arithmétique : 1 ether = 1 * 1e18
+> Le mot clé **ether** peut être utilisé en arithmétique : 1 ether = 1 \* 1e18
 
-6. Afin de booster les ventes en début de soirée, on veut créer une fonction **happyHour(uint duration)** permettant de démarrer l'happy hour. Durant l'happy hour toutes les bières sont à -50%  !! Seulement le propriétaire du contrat peut démarrer l'happy hour.
+6. Afin de booster les ventes en début de soirée, on veut créer une fonction **happyHour(uint duration)** permettant de démarrer l'happy hour. Durant l'happy hour toutes les bières sont à -50% !! Seulement le propriétaire du contrat peut démarrer l'happy hour.
 
 > **block.timestamp** permet d'accéder à l'[heure Unix](https://fr.wikipedia.org/wiki/Heure_Unix) au moment de la transaction en cours.
 
-> Les **modifier** permettent d'exécuter du code avant ou après votre fonction. _ correspond à votre fonction. Même si on est jamais "obligé" d'utiliser les modifiers, cela reste intéressant pour factoriser votre code.
+> Les **modifier** permettent d'exécuter du code avant ou après votre fonction. \_ correspond à votre fonction. Même si on est jamais "obligé" d'utiliser les modifiers, cela reste intéressant pour factoriser votre code.
 
 Exemple de **modifier** :
 
@@ -73,17 +72,15 @@ error NotValid();
 function foo() public checkCondition() {}
 ```
 
-## Création de la Dapp
+## Création de la DApp
 
-1. Il est maintenant temps d'ouvrir votre Smart Contract vers l'extérieur. C'est pourquoi nous allons avoir besoin d'installer [Metamask](https://metamask.io/). Il s'agit d'une extension de navigateur permettant de gérer des portefeuilles Ethereum. Lors de votre installation vous serez amené à **créer un portefeuille**. Une fois l'installation terminée, ouvrez l'extension puis cliquez sur _Réseau principal Ethereum_ puis sur **afficher/cacher les réseaux de test** et cochez l'option. Cela permet ensuite de choisir le réseau de test **Rinkeby**. Puis vous pouvez utiliser un [faucet](https://faucets.chain.link/rinkeby) afin de récolter un peu d'ether (si le site ne marche pas vous pouvez nous contacter, nous avons quelques ethers en rab pour vous ;)). Vous pouvez répéter l'action mais comme vous le voyez il est fastidieux d'obtenir plus de 1 ether, c'est pourquoi il faudra faire attention aux prix que vous définissez pour vos bières (sachant qu'une transaction sur Rinkeby coûte environ 0.0001 ether de frais et le déploiement d'un contrat 0.001 ether).
+1. Il est maintenant temps d'ouvrir votre Smart Contract vers l'extérieur. C'est pourquoi nous allons avoir besoin d'installer [Metamask](https://metamask.io/). Il s'agit d'une extension de navigateur permettant de gérer des portefeuilles Ethereum. Lors de votre installation vous serez amené à **créer un portefeuille**. Une fois l'installation terminée, ouvrez l'extension puis cliquez sur `Réseau principal Ethereum` puis sur **afficher/cacher les réseaux de test** et cochez l'option. Cela permet ensuite de choisir le réseau de test **Rinkeby**. Puis vous pouvez utiliser un [faucet](https://faucets.chain.link/rinkeby) afin de récolter un peu d'ether (si le site ne marche pas vous pouvez nous contacter, nous avons quelques ethers en rab pour vous ;)). Vous pouvez répéter l'action mais comme vous le voyez il est fastidieux d'obtenir plus de 1 ether, c'est pourquoi il faudra faire attention aux prix que vous définissez pour vos bières (sachant qu'une transaction sur Rinkeby coûte environ 0.0001 ether de frais et le déploiement d'un contrat 0.001 ether).
 
-2. Le squelette de la dapp est déjà créé. Le framework front-end choisi est Vue.
-Vous pouvez vous connecter à l'IDE en ligne de Vue :  **//TODO**
-ou alors si voulez une solution plus "stable" et reactive, vous pouvez aussi cloner le repo Git, et **npm ci** puis **npm run serve** dans le directory _dapp\_skeleton_.
+2. Le squelette de la DApp a déjà été créé. Le framework front-end choisi est Vue. Vous pouvez vous connecter à l'IDE en ligne de Vue : [codesandbox.io](https://codesandbox.io/s/foy-dapp-skeleton-v1216). Si la sandbox ne marche pas du premier coup, veuillez la rafraîchir. Sinon si vous préférez une solution plus "stable" et reactive, vous pouvez aussi cloner ce repo Git, et **npm ci** puis **npm run serve** dans le directory `dapp_skeleton`. Voici un exemple de version finie de la DApp : [foy-dapp](https://goldananas.github.io/solidity-sffs-private/)
 
-3. Il vous faudra compiler votre Smart Contract sous Remix et copier l'ABI obtenu (tout en bas de l'onglet de compilateur) dans le projet Vue (_src/abi.json_). Vous pouvez aller voir l'ABI existant pour comparer avec votre solution. Également il faudra déployer le contrat sur Remix, pour cela on choisira l'environnement **Injected Web3**, normalement un pop up Metamask apparaîtra, accepter (il faut rafraîchir la page si vous venez juste d'installer Metamask). Ensuite vous pouvez déployer le contrat, il faudra attendre un certain temps, puis Metamask affichera une notification, copier l'adresse du contrat, puis collez là dans le fichier _src/App.vue_.
+3. Il vous faudra compiler votre Smart Contract sous Remix et copier l'ABI obtenu (tout en bas de l'onglet de compilateur) dans le projet Vue (`src/abi.json`). Vous pouvez aller voir l'ABI existant pour comparer avec votre solution. Également il faudra déployer le contrat sur Remix, pour cela on choisira l'environnement **Injected Web3**, normalement un pop up Metamask apparaîtra, accepter (il faut rafraîchir la page si vous venez juste d'installer Metamask). Ensuite vous pouvez déployer le contrat, il faudra attendre un certain temps, puis Metamask affichera une notification, copier l'adresse du contrat, puis coller là dans le fichier `src/App.vue`.
 
-4. Complétez les méthodes dans methods du fichier (_src/components/Foy.vue_).
+4. Compléter les méthodes dans methods du fichier (`src/components/Foy.vue`).
 
 Voici les principales fonctions de Web3.js à utiliser pour compléter ces méthodes :
 
@@ -107,20 +104,6 @@ Voici les principales fonctions de Web3.js à utiliser pour compléter ces méth
         .yourMethod(...<optional params>)
         .send({ from: this.connectedAccount, value: <transaction value> })
 
-```
-
-
-5. Ensuite il faut gérer l'affichage de l'Happy Hour. La DApp doit pouvoir être capable de voir quand est-ce que l'Happy Hour est lancé. Pour cela, retourner sur Remix et ajouter à la fonction **happyHour** l'émission d'un event, aussi à ajouter.
-
-> Le type **event** permet de définir des évènements personnalisés.
-
-> La fonction **emit(event)** permet d'émettre un event.
-
-
-6. Refaire les mêmes actions que dans l'étape 3 pour recopier l'ABI, mettre à jour abi.json et déployer le contrat modifié. Enfin, dans created() de Foy.vue, écouter l'event émis par le contrat. Lorsque l'event est émis, utiliser la fonction ```this.startHappyHourCountDown(end)``` déjà définie pour lancer le compteur de l'Happy Hour.
-
-Voici les principales fonctions de Web3.js à utiliser pour écouter les events :
-```solidity
 // You can also subscribe to transaction's events, such as :
 
     this.foyContract.methods
@@ -128,15 +111,28 @@ Voici les principales fonctions de Web3.js à utiliser pour écouter les events 
         .send(...)
         .once('receipt', function(receipt){ ... }) // Transaction is effective
         .on('error', function(error){ ... }) // Transaction failed
+```
 
+5. Ensuite il faut gérer l'affichage de l'Happy Hour. La DApp doit pouvoir être capable de voir quand est-ce que l'Happy Hour est lancé. Pour cela, retourner sur Remix et ajouter à la fonction **happyHour** l'émission d'un event, aussi à ajouter.
 
-// Finally, you can subscribe to contract's events (emitted with 'emit') :
+> Le type **event** permet de définir des évènements personnalisés.
+
+> La fonction **emit(event)** permet d'émettre un event.
+
+6. Refaire les mêmes actions que dans l'étape 3 pour recopier l'ABI, mettre à jour abi.json et déployer le contrat modifié. Enfin, dans `created()` de `Foy.vue`, écouter l'event émis par le contrat. Lorsque l'event est émis, utiliser la fonction `this.startHappyHourCountDown(end)` déjà définie pour lancer le décompte de l'Happy Hour.
+
+Voici les principales fonctions de Web3.js à utiliser pour écouter les events :
+
+```solidity
+// You can subscribe to contract's events (emitted with 'emit') :
 
     this.foyContract.events.YourEvent().on("data", event => {
         // event.returnValues contains the data sent by the event
     });
 ```
+
 ## Liens utiles
 
 - [Documentation Solidity](https://docs.soliditylang.org/en/latest/)
 - [Convertisseur d'unités Ethereum](https://coinguides.org/ethereum-unit-converter-gwei-ether/)
+- [Version finie de la Dapp](https://goldananas.github.io/solidity-sffs-private/)
